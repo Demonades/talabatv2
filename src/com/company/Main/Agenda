@@ -1,0 +1,4 @@
+@PERRY 2:48 AM 23/12/20
+- Handle image insertion for restaurant code/database
+- Create Select statements for objects eg. meal, restaurant, restaurant_owner
+- Approve restaurant as admin
