@@ -34,5 +34,11 @@ public class RestaurantOwner extends User{
         restaurant_owner_id = sr.retrieveInteger("restaurant_owner_id","RESTAURANT_OWNER",
                 "user_id", String.valueOf(user_id));
     }
-    //GET RESTAURANT BY CATEGORIES
+    public static RestaurantOwner login(String email, String password){
+        SelectRecords sr = new SelectRecords();
+        if(ValidateLogin.user(email,password)){
+            return sr.retrieveRestaurantOwner(email);
+        }
+        return null;
+    }
 }

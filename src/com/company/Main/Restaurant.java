@@ -54,4 +54,15 @@ public class Restaurant {
         SelectRecords sr = new SelectRecords();
         return sr.retrieveRestaurantListAll();
     }
+
+    //RETRIEVE ARRAY LIST OF ALL RESTAURANT IN A CERTAIN CATEGORY
+    public static ArrayList<Restaurant> getCategorizedRestaurants(int category_id){
+        SelectRecords sr = new SelectRecords();
+        return sr.retrieveCategorizedRestaurantList(category_id);
+    }
+
+    public static ArrayList<Restaurant> getRestaurantsInLocation(int location_id){
+        SelectRecords sr = new SelectRecords();
+        return sr.retrieveLocationRestaurantList(location_id);
+    }
 }

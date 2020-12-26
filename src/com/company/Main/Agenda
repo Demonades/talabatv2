@@ -2,3 +2,17 @@
 - Handle image insertion for restaurant code/database
 - Create Select statements for objects eg. meal, restaurant, restaurant_owner
 - Approve restaurant as admin
+
+    public Admin(String email, String name, String hash) throws NoSuchAlgorithmException {
+        this.email = email;
+        this.name = name;
+        //GENERATE SALT FOR USER
+        salt = PasswordHashing.generateSalt();
+        //HASH PASSWORD IMMEDIATELY USING SALT AND SHA-1
+        this.hash = PasswordHashing.generateHash(hash,salt);
+    }
+
+    public void insertIntoDB(){
+        InsertRecords ir = new InsertRecords();
+        ir.insertUser(email, name, hash, salt);
+    }

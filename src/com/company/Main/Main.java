@@ -6,6 +6,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+
         //ADDING A CUSTOMER
         //Customer user1 = new Customer("perry@test.com","perry","abc123");
         //user1.insertIntoDB();
@@ -35,5 +36,29 @@ public class Main {
         //Category.getCategoryList();
 
         //Category.getCategorizedRestaurants(1);
+        //SelectRecords sr = new SelectRecords();
+        //Restaurant restaurant = sr.retrieveRestaurant("*","RESTAURANT", "restaurant_id", "4");
+
+
+        //ArrayList<Meal> al = Meal.getMealList(restaurant);
+        //for(Meal meal: al){
+        //    System.out.println(meal.getMeal_name());
+        //}
+        //UpdateRecords.updateAdmin(1, 2);
+        //ArrayList<Restaurant> rs = Restaurant.getRestaurantsInLocation(1);
+        //for(Restaurant r: rs){
+        //    System.out.println(r.getRestaurant_name());
+        //}
+
+        //Customer c1= new Customer("user1@test.com","user1", "user1");
+        //Customer c2= new Customer("user2@test.com","user2", "user2");
+        //c1.insertIntoDB();
+        //c2.insertIntoDB();
+        //RestaurantOwner c = RestaurantOwner.login("ro@test.com","fool1");
+        //System.out.println(c.getName());
+        //Admin admin = new Admin("admin1@admin.com", "admin1", "admin1");
+        //admin.insertIntoDB();
+        Admin a = Admin.login("admin1@admin.com", "admin1");
+        System.out.println(a.getName());
     }
 }

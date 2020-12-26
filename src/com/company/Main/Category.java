@@ -23,10 +23,6 @@ public class Category {
         SelectRecords sr = new SelectRecords();
         return sr.retrieveCategoryList();
     }
-    //RETRIEVE ARRAY LIST OF ALL RESTAURANT IN A CERTAIN CATEGORY
-    public static ArrayList<Restaurant> getCategorizedRestaurants(int category_id){
-        SelectRecords sr = new SelectRecords();
-        return sr.retrieveCategorizedRestaurantList(category_id);
-    }
+
 
 }

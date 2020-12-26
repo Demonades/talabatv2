@@ -23,4 +23,13 @@ public abstract class User {
     }
 
     public abstract void insertIntoDB();
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -12,4 +12,5 @@ public class Register{
         RestaurantCategory restaurantCategory = new RestaurantCategory(restaurant.getRestaurant_id(), category.getCategory_id());
         restaurantCategory.insertIntoDB();
     }
+
 }

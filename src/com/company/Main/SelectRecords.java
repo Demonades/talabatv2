@@ -1,6 +1,7 @@
 package com.company.Main;
 
 import javax.swing.plaf.nimbus.State;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,6 +83,7 @@ public class SelectRecords {
         }
         return result;
     }
+
     public Restaurant retrieveRestaurant(String selectedColumnLabel, String tableName, String conditionColumnLabel, String searchKey){
         String sql = "SELECT ? FROM ? WHERE ? = ?";
         sql = sql.replaceFirst("\\?",selectedColumnLabel);
@@ -111,7 +113,7 @@ public class SelectRecords {
         return new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
     }
     public ArrayList<Restaurant> retrieveRestaurantListAll(){
-        String sql = "SELECT * FROM RESTAURANT";
+        String sql = "SELECT * FROM RESTAURANT WHERE restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         int restaurant_id = -1;
         String restaurant_name = "";
@@ -128,6 +130,62 @@ public class SelectRecords {
                 restaurant_id = rs.getInt("restaurant_id");
                 restaurant_name = rs.getString("restaurant_name");
                 location_id = rs.getInt("location_id");
+                phone = rs.getString("phone");
+                restaurant_owner_id = rs.getInt("restaurant_owner_id");
+                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
+                restaurants.add(restaurant);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return restaurants;
+    }
+    public ArrayList<Restaurant> retrieveCategorizedRestaurantList(int category_id){
+        String sql = "SELECT * FROM RESTAURANT INNER JOIN RESTAURANT_CATEGORIES ON RESTAURANT.restaurant_id = RESTAURANT_CATEGORIES.restaurant_id WHERE RESTAURANT_CATEGORIES.category_id = ? AND restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
+        int restaurant_id = -1;
+        String restaurant_name = "";
+        int location_id = -1;
+        String phone = "";
+        int restaurant_owner_id = -1;
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, category_id);
+            ResultSet rs = pstmt.executeQuery();
+
+            // loop through the result set
+            while (rs.next()) {
+                restaurant_id = rs.getInt("restaurant_id");
+                restaurant_name = rs.getString("restaurant_name");
+                location_id = rs.getInt("location_id");
+                phone = rs.getString("phone");
+                restaurant_owner_id = rs.getInt("restaurant_owner_id");
+                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
+                restaurants.add(restaurant);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return restaurants;
+    }
+    public ArrayList<Restaurant> retrieveLocationRestaurantList(int location_id){
+        String sql = "SELECT * FROM RESTAURANT WHERE location_id = ? AND restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
+        int restaurant_id = -1;
+        String restaurant_name = "";
+        String phone = "";
+        int restaurant_owner_id = -1;
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,location_id);
+            ResultSet rs = pstmt.executeQuery();
+
+            // loop through the result set
+            while (rs.next()) {
+                restaurant_id = rs.getInt("restaurant_id");
+                restaurant_name = rs.getString("restaurant_name");
                 phone = rs.getString("phone");
                 restaurant_owner_id = rs.getInt("restaurant_owner_id");
                 Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
@@ -250,35 +308,111 @@ public class SelectRecords {
         }
         return map;
     }
-    public ArrayList<Restaurant> retrieveCategorizedRestaurantList(int category_id){
-        String sql = "SELECT * FROM RESTAURANT INNER JOIN RESTAURANT_CATEGORIES ON RESTAURANT.restaurant_id = RESTAURANT_CATEGORIES.restaurant_id WHERE RESTAURANT_CATEGORIES.category_id = ?";
-        ArrayList<Restaurant> restaurants = new ArrayList<>();
-        int restaurant_id = -1;
-        String restaurant_name = "";
-        int location_id = -1;
-        String phone = "";
-        int restaurant_owner_id = -1;
+    public ArrayList<Meal> retrieveMealList(int restaurant_id){
+        String sql = "SELECT * FROM MEAL WHERE MEAL.restaurant_id = ?";
+        ArrayList<Meal> meals = new ArrayList<>();
+        int meal_id;
+        String meal_name;
+        float meal_price;
+        String meal_description;
         try {
             Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, category_id);
+            pstmt.setInt(1, restaurant_id);
             ResultSet rs = pstmt.executeQuery();
 
             // loop through the result set
             while (rs.next()) {
-                restaurant_id = rs.getInt("restaurant_id");
-                restaurant_name = rs.getString("restaurant_name");
-                location_id = rs.getInt("location_id");
-                phone = rs.getString("phone");
-                restaurant_owner_id = rs.getInt("restaurant_owner_id");
-                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
-                restaurants.add(restaurant);
+                meal_id = rs.getInt("meal_id");
+                meal_name = rs.getString("meal_name");
+                meal_price = rs.getFloat("meal_price");
+                meal_description = rs.getString("meal_description");
+                Meal meal = new Meal(meal_id, restaurant_id, meal_name, meal_price, meal_description);
+                meals.add(meal);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return restaurants;
+        return meals;
     }
+    public Customer retrieveCustomer(String email){
+        String sql = "SELECT * FROM USERS JOIN CUSTOMERS ON USERS.user_id = CUSTOMERS.user_id WHERE email = ?";
+        Customer customer = null;
+        String name;
+        String hash;
+        int user_id;
+        int customer_id;
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+
+            // loop through the result set
+            while (rs.next()) {
+                name = rs.getString("name");
+                user_id = rs.getInt("user_id");
+                customer_id = rs.getInt("customer_id");
+                customer = new Customer(email, name, user_id, customer_id);
+            }
+        } catch (SQLException | NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
+        }
+        return customer;
+    }
+    public RestaurantOwner retrieveRestaurantOwner(String email){
+        String sql = "SELECT * FROM USERS JOIN RESTAURANT_OWNER ON USERS.user_id = RESTAURANT_OWNER.user_id WHERE email = ? AND RESTAURANT_OWNER.approved = 1";
+        RestaurantOwner restaurantOwner = null;
+        int restaurant_owner_id;
+        int user_id;
+        int approved;
+        String name;
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+
+            // loop through the result set
+            while (rs.next()) {
+                email = rs.getString("email");
+                name = rs.getString("name");
+                user_id = rs.getInt("user_id");
+                restaurant_owner_id = rs.getInt("restaurant_owner_id");
+                approved = rs.getInt("restaurant_owner_id");
+                restaurantOwner = new RestaurantOwner(email,name,restaurant_owner_id,user_id,approved);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return restaurantOwner;
+    }
+    public Admin retrieveAdmin(String email){
+        String sql = "SELECT * FROM ADMINS WHERE email = ?";
+        int admin_id;
+        String name;
+        Admin admin = null;
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+
+            // loop through the result set
+            while (rs.next()) {
+                name = rs.getString("name");
+                admin_id = rs.getInt("admin_id");
+                admin = new Admin(admin_id,email,name);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return admin;
+    }
+
+
+
+
 
 
 

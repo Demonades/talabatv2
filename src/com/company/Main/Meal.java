@@ -1,5 +1,7 @@
 package com.company.Main;
 
+import java.util.ArrayList;
+
 public class Meal {
     private int meal_id;
     private int restaurant_id;
@@ -27,6 +29,23 @@ public class Meal {
         InsertRecords ir = new InsertRecords();
         ir.insertMeal(restaurant_id, meal_name, meal_price, meal_description);
     }
+
+    public static ArrayList<Meal> getMealList(Restaurant restaurant){
+        SelectRecords sr = new SelectRecords();
+        return sr.retrieveMealList(restaurant.getRestaurant_id());
+    }
     //INSERT MEAL INTO DATABASE - TO BE WRITTEN
     //RETRIEVE MEAL FROM DATABASE
+
+    public String getMeal_name() {
+        return meal_name;
+    }
+
+    public float getMeal_price() {
+        return meal_price;
+    }
+
+    public String getMeal_description() {
+        return meal_description;
+    }
 }
