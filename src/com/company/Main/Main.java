@@ -56,14 +56,16 @@ public class Main {
         //c2.insertIntoDB();
         RestaurantOwner c = RestaurantOwner.login("ro@test.com","fool");
         Restaurant r = c.getRestaurant();
-        System.out.println(r.getRestaurant_name());
-        System.out.println(r.getPhone());
-        System.out.println("Hello!");
+        //System.out.println(r.getRestaurant_name());
+        //System.out.println(r.getPhone());
+        //System.out.println("Hello!");
         //System.out.println(c.getName());
         //Admin admin = new Admin("admin1@admin.com", "admin1", "admin1");
         //admin.insertIntoDB();
         //Admin a = Admin.login("admin1@admin.com", "admin1");
         //System.out.println(a.getName());
         //System.out.println("Hello!");
+        //DeleteRecords dr = new DeleteRecords();
+        //dr.deleteMeal(1);
     }
 }

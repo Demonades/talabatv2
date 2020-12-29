@@ -34,8 +34,11 @@ public class Meal {
         SelectRecords sr = new SelectRecords();
         return sr.retrieveMealList(restaurant.getRestaurant_id());
     }
-    //INSERT MEAL INTO DATABASE - TO BE WRITTEN
-    //RETRIEVE MEAL FROM DATABASE
+
+    public void deleteMeal(){
+        DeleteRecords dr = new DeleteRecords();
+        dr.deleteMeal(meal_id);
+    }
 
     public String getMeal_name() {
         return meal_name;
