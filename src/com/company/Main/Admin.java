@@ -17,7 +17,7 @@ public class Admin {
         this.name = name;
     }
 
-    public static HashMap<RestaurantOwner, Restaurant> getPendingApprovalList(){
+    public static ArrayList<RestaurantOwner> getPendingApprovalList(){
         SelectRecords sr = new SelectRecords();
         return sr.retrievePendingApprovalRestaurantOwners();
 

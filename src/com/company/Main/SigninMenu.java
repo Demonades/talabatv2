@@ -78,8 +78,7 @@ public class SigninMenu {
             System.out.println("Invalid email or password, please try again!");
         }
         else {
-            AdminMenu menu = new AdminMenu();
-            menu.initial(admin);
+            AdminMenu menu = new AdminMenu(admin);
         }
 
     }

@@ -269,21 +269,17 @@ public class SelectRecords {
         }
         return categories;
     }
-    public HashMap<RestaurantOwner, Restaurant> retrievePendingApprovalRestaurantOwners(){
+    public ArrayList<RestaurantOwner> retrievePendingApprovalRestaurantOwners(){
         //String sql = "SELECT RESTAURANT_OWNER.restaurant_owner_id, RESTAURANT_OWNER.user_id, RESTAURANT_OWNER.approved, USERS.email, USERS.name FROM RESTAURANT_OWNER  INNER JOIN USERS  ON RESTAURANT_OWNER.user_id = USERS.user_id WHERE approved = 0";
-        String sql = "SELECT RESTAURANT_OWNER.restaurant_owner_id, RESTAURANT_OWNER.user_id, RESTAURANT_OWNER.approved, USERS.email, USERS.name, RESTAURANT.phone, RESTAURANT.restaurant_name, RESTAURANT.location_id FROM RESTAURANT_OWNER INNER JOIN USERS ON RESTAURANT_OWNER.user_id = USERS.user_id INNER JOIN RESTAURANT ON RESTAURANT.restaurant_owner_id = RESTAURANT_OWNER.restaurant_owner_id WHERE approved = 0";
+        String sql = "SELECT RESTAURANT_OWNER.restaurant_owner_id, RESTAURANT_OWNER.user_id, RESTAURANT_OWNER.approved, USERS.email, USERS.name FROM RESTAURANT_OWNER INNER JOIN USERS ON RESTAURANT_OWNER.user_id = USERS.user_id WHERE approved = 0";
         //HASH MAP RESTAURANT OWNER AND THEIR RESTAURANT
-        HashMap<RestaurantOwner, Restaurant> map = new HashMap<>();
+        ArrayList<RestaurantOwner> restaurantOwners= new ArrayList<>();
         //RESTAURANT OWNER
         int restaurant_owner_id = -1;
         int user_id = -1;
         int approved = -1;
         String email = "";
         String name = "";
-        //RESTAURANT
-        String phone = "";
-        String restaurant_name = "";
-        int location_id = -1;
         try {
             Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -297,16 +293,12 @@ public class SelectRecords {
                 user_id = rs.getInt("user_id");
                 approved = rs.getInt("approved");
                 RestaurantOwner restaurantOwner = new RestaurantOwner(email, name, restaurant_owner_id,user_id,approved);
-                restaurant_name = rs.getString("restaurant_name");
-                location_id = rs.getInt("location_id");
-                phone = rs.getString("phone");
-                Restaurant restaurant = new Restaurant(restaurant_name, location_id, phone);
-                map.put(restaurantOwner, restaurant);
+                restaurantOwners.add(restaurantOwner);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return map;
+        return restaurantOwners;
     }
     public ArrayList<Meal> retrieveMealList(int restaurant_id){
         String sql = "SELECT * FROM MEAL WHERE MEAL.restaurant_id = ?";
@@ -409,15 +401,5 @@ public class SelectRecords {
         }
         return admin;
     }
-
-
-
-
-
-
-
-
-
-
 
 }
