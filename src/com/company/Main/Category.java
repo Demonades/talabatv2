@@ -23,6 +23,18 @@ public class Category {
         SelectRecords sr = new SelectRecords();
         return sr.retrieveCategoryList();
     }
+    public static void displayCategoryList( ) {
+        ArrayList<Category> categories = new ArrayList<Category>(100);
+        categories = Category.getCategoryList();
+        System.out.println("_____________________");
 
+        for (int j = 0; j < categories.size(); j++) {
+            System.out.println(j + 1 + "  " + categories.get(j).getCategory_name());
+        }
+        System.out.println("_____________________");
+
+
+
+    }
 
 }

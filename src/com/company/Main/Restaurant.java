@@ -55,10 +55,38 @@ public class Restaurant {
         return sr.retrieveRestaurantListAll();
     }
 
+    //DISPLAY ALL  RESTAURANTS
+    public static void displayRestaurantListAll() {
+        ArrayList<Restaurant> all_restaurants = new ArrayList<Restaurant>(100);
+        all_restaurants = getRestaurantListAll();
+        System.out.println("_________________________");
+
+        for (int i = 0; i < all_restaurants.size(); i++) {
+
+            System.out.println(i+1 + "  "+ all_restaurants.get(i).getRestaurant_name());
+        }
+        System.out.println("_________________________");
+        System.out.println("Press 0 to back to the main menu");
+
+    }
     //RETRIEVE ARRAY LIST OF ALL RESTAURANT IN A CERTAIN CATEGORY
     public static ArrayList<Restaurant> getCategorizedRestaurants(int category_id){
         SelectRecords sr = new SelectRecords();
         return sr.retrieveCategorizedRestaurantList(category_id);
+    }
+
+
+    //DISPLAY ALL  RESTAURANT IN ANY ARRAYLIST
+    public static void   displayRestaurants( ArrayList<Restaurant> restaurants  ){
+        System.out.println("_____________________");
+
+        for (int j = 0 ; j < restaurants.size() ; j++ )
+        {
+            System.out.println( j + 1  + "  "+restaurants.get(j).getRestaurant_name() );
+        }
+        System.out.println("_____________________");
+        System.out.println("Press 0 to back to the main menu");
+
     }
 
     public static ArrayList<Restaurant> getRestaurantsInLocation(int location_id){
