@@ -6,9 +6,9 @@ import java.util.*;
 public class Meal {
     private int meal_id;
     private int restaurant_id;
-    private String meal_name;
-    private float meal_price;
-    private String meal_description;
+    private final String meal_name;
+    private final float meal_price;
+    private final String meal_description;
 
     public Meal(String meal_name, float meal_price, String meal_description) {
         this.meal_name = meal_name;
@@ -50,43 +50,41 @@ public class Meal {
         return meal_description;
     }
 
-    public static void dispalayMealList(Restaurant restaurant) {
+    public static void displayMealList(Restaurant restaurant) {
 
-        ArrayList<Meal> meals = new ArrayList<Meal>(100);
-        meals = getMealList(restaurant);
-        for(int i = 0 ; i < meals.size() ; i++)
-        {
-            System.out.println("___________________________");
-            System.out.println(i+1 + "  "+meals.get(i).meal_name + "  " +meals.get(i).meal_price   );
+        ArrayList<Meal> meals = getMealList(restaurant);
+        for (int i = 0; i < meals.size(); i++) {
+            System.out.println("[" + (i + 1) + "] " + meals.get(i).meal_name + "  " + meals.get(i).meal_price + "EGP");
             System.out.println(meals.get(i).meal_description);
-            System.out.println("___________________________");
+            System.out.println("__________________________________");
         }
     }
-    public static void orderMeal(ArrayList<Restaurant> restaurant  ) {
+
+    public static void orderMeal(Restaurant restaurant) {
         Scanner input = new Scanner(System.in);
-        ArrayList<Meal> restaurant_meals = new ArrayList<Meal>(100);
-        while(true) {
-            System.out.println("Choose Meal : ");
-            int choose_meal = input.nextInt();
-            restaurant_meals = Meal.getMealList(restaurant.get(choose_meal - 1));
-            System.out.println("Quantity : ");
-            int quantity;
-            quantity = input.nextInt();
-            float price = restaurant_meals.get(choose_meal - 1).getMeal_price() * quantity;
-            System.out.println("Total  :  " + price);
-            System.out.println("CHECK OUT : (1 - YES   2 - NO  )");
-            int i = input.nextInt();
-            System.out.println("another order ? (1 - YES   2 - NO  )");
-            i = input.nextInt();
-            if(i == 2)
-            {
+        System.out.print("Choose meal ID: ");
+        int userChoice = input.nextInt();
+        Meal meal = Meal.getMealList(restaurant).get(userChoice-1);
+        System.out.print("Enter quantity: ");
+        int quantity;
+        quantity = input.nextInt();
+        float price = meal.getMeal_price() * quantity;
+        System.out.println("Total: " + price);
+        System.out.println("Would you like to checkout?");
+        System.out.println("[1] YES");
+        System.out.println("[2] NO");
+        System.out.println("Your choice: ");
+        userChoice = input.nextInt();
+        switch (userChoice) {
+            case 1:
+                System.out.println("Your order will be delivered in 45 minutes!");
                 break;
-            }
-
-
+            case 2:
+                break;
         }
     }
-    public void deleteMeal(){
+
+    public void deleteMeal() {
         DeleteRecords dr = new DeleteRecords();
         dr.deleteMeal(meal_id);
     }

@@ -75,17 +75,12 @@ public class Restaurant {
         return sr.retrieveCategorizedRestaurantList(category_id);
     }
 
-
-    //DISPLAY ALL  RESTAURANT IN ANY ARRAYLIST
-    public static void   displayRestaurants( ArrayList<Restaurant> restaurants  ){
-        System.out.println("_____________________");
-
-        for (int j = 0 ; j < restaurants.size() ; j++ )
-        {
-            System.out.println( j + 1  + "  "+restaurants.get(j).getRestaurant_name() );
+    //DISPLAY ALL RESTAURANT IN ANY ARRAYLIST
+    public static void   displayRestaurants(Category category){
+        ArrayList<Restaurant> restaurants = Restaurant.getCategorizedRestaurants(category.getCategory_id());
+        for(int i = 0; i < restaurants.size(); i++){
+            System.out.println("[" + (i+1) + "] " + restaurants.get(i).getRestaurant_name());
         }
-        System.out.println("_____________________");
-        System.out.println("Press 0 to back to the main menu");
 
     }
 

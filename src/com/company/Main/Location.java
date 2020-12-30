@@ -26,12 +26,11 @@ public class Location {
     }
     public  static void displayLocationList()
     {
-        ArrayList<Location> locations = new ArrayList<>(100);
-        locations = getLocationList() ;
+        ArrayList<Location> locations = getLocationList();
         for(int i = 0 ; i < locations.size() ; i++)
         {
-            System.out.println(i+1 + "   " + locations.get(i).location_name);
+            System.out.println("[" + (i+1) + "] " + locations.get(i).location_name);
         }
-
+        System.out.println("__________________________________");
     }
 }
