@@ -28,6 +28,9 @@ public class SigninMenu {
         }
     }
     public static void customer(){
+        System.out.println("__________________________________");
+        System.out.println("         CUSTOMER SIGN IN         ");
+        System.out.println("__________________________________");
         Scanner input = new Scanner(System.in);
         System.out.print("Enter your email: ");
         String email = input.next();
@@ -43,6 +46,9 @@ public class SigninMenu {
 
     }
     public static void restaurantOwner(){
+        System.out.println("__________________________________");
+        System.out.println("     RESTAURANT OWNER SIGN IN     ");
+        System.out.println("__________________________________");
         Scanner input = new Scanner(System.in);
         System.out.print("Enter your email: ");
         String email = input.next();
@@ -54,12 +60,14 @@ public class SigninMenu {
             System.out.println("Invalid email or password, please try again!"); //PENDING: INFORM THE USER IF THEIR RESTAURANT IS PENDING APPROVAL
         }
         else {
-            RestaurantOwnerMenu menu = new RestaurantOwnerMenu();
-            menu.initial(restaurantOwner);
+            RestaurantOwnerMenu menu = new RestaurantOwnerMenu(restaurantOwner);
         }
 
     }
     public static void admin(){
+        System.out.println("__________________________________");
+        System.out.println("           ADMIN SIGN IN          ");
+        System.out.println("__________________________________");
         Scanner input = new Scanner(System.in);
         System.out.print("Enter your email: ");
         String email = input.next();

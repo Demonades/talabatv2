@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class CustomerMenu {
     Customer customer;
+    Scanner input = new Scanner(System.in);
 
     public CustomerMenu(Customer customer) {
         this.customer = customer;
@@ -21,7 +22,6 @@ public class CustomerMenu {
         System.out.println("[3] Search");
         System.out.println("[4] Log out");
         System.out.println("__________________________________");
-        Scanner input = new Scanner(System.in);
         System.out.print("Your choice: ");
         int userChoice = input.nextInt();
         switch (userChoice) {
@@ -48,7 +48,6 @@ public class CustomerMenu {
         System.out.println("            CATEGORIES            ");
         System.out.println("__________________________________");
         Category.displayCategoryList();
-        Scanner input = new Scanner(System.in);
         System.out.print("Select a category ID: ");
         int userChoice = input.nextInt();
         //PENDING ERROR HANDLING
@@ -59,7 +58,6 @@ public class CustomerMenu {
         System.out.println("__________________________________");
         System.out.println(category.getCategory_name().toUpperCase()+" RESTAURANTS");
         System.out.println("__________________________________");
-        Scanner input = new Scanner(System.in);
         ArrayList<Restaurant> restaurants = Restaurant.getCategorizedRestaurants(category.getCategory_id());
         for (int i = 0; i < restaurants.size(); i++) {
             System.out.println("[" + (i + 1) + "] " + restaurants.get(i).getRestaurant_name());
@@ -75,7 +73,6 @@ public class CustomerMenu {
         System.out.println("          ALL RESTAURANTS         ");
         System.out.println("__________________________________");
 
-        Scanner input = new Scanner(System.in);
         ArrayList<Restaurant> restaurants = Restaurant.getRestaurantListAll();
         for (int i = 0; i < restaurants.size(); i++) {
             System.out.println("[" + (i + 1) + "] " + restaurants.get(i).getRestaurant_name());
@@ -90,7 +87,6 @@ public class CustomerMenu {
         System.out.println("Welcome to " + restaurant.getRestaurant_name());
         System.out.println("__________________________________");
         Meal.displayMealList(restaurant);
-        Scanner input = new Scanner(System.in);
 
         System.out.println("What would you like to do?");
         System.out.println("[1] Make an order");
@@ -98,13 +94,11 @@ public class CustomerMenu {
         System.out.print("Your choice: ");
         int userChoice = input.nextInt();
         switch (userChoice) {
-            case 0:
-                initial();
-                break;
-            case 1:
+            case 0 -> initial();
+            case 1 -> {
                 Meal.orderMeal(restaurant);
                 initial();
-                break;
+            }
         }
 
         //System.out.println("What would you like to do?");
@@ -130,7 +124,6 @@ public class CustomerMenu {
         System.out.println("[0] Go back to main menu\n");
         System.out.print("Your choice: ");
 
-        Scanner input = new Scanner(System.in);
         int userChoice = input.nextInt();
 
         switch (userChoice) {
@@ -152,7 +145,6 @@ public class CustomerMenu {
         System.out.println("__________________________________");
 
         Location.displayLocationList();
-        Scanner input = new Scanner(System.in);
         System.out.print("Select a location ID: ");
         int userChoice = input.nextInt();
         //PENDING ERROR HANDLING
@@ -163,7 +155,6 @@ public class CustomerMenu {
         System.out.println("__________________________________");
         System.out.println("    RESTAURANTS IN " + location.getLocation_name());
         System.out.println("__________________________________");
-        Scanner input = new Scanner(System.in);
         ArrayList<Restaurant> restaurants = Restaurant.getRestaurantsInLocation(location.getLocation_id());
         for (int i = 0; i < restaurants.size(); i++) {
             System.out.println("[" + (i + 1) + "] " + restaurants.get(i).getRestaurant_name());
@@ -183,14 +174,13 @@ public class CustomerMenu {
         System.out.println("     SEARCH RESTAURANT BY NAME    ");
         System.out.println("__________________________________");
         String restaurantName;
-        Scanner input = new Scanner(System.in);
         ArrayList<Restaurant> restaurants = Restaurant.getRestaurantListAll();
         System.out.print("Enter restaurant name: ");
         restaurantName = input.next();
         Restaurant foundRestaurant = null;
-        for (int j = 0; j < restaurants.size(); j++) {
-            if (restaurants.get(j).getRestaurant_name().equals(restaurantName)) {
-                foundRestaurant = restaurants.get(j);
+        for (Restaurant restaurant : restaurants) {
+            if (restaurant.getRestaurant_name().equals(restaurantName)) {
+                foundRestaurant = restaurant;
             }
         }
         if(foundRestaurant != null){

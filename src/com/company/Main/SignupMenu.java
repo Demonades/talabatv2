@@ -7,8 +7,10 @@ public class SignupMenu {
     public static void initial() throws NoSuchAlgorithmException {
         Scanner input = new Scanner(System.in);
         System.out.println("What would you like to do?");
+        System.out.println("__________________________________");
         System.out.println("[1] Sign up as a customer");
         System.out.println("[2] Sign up as a restaurant owner");
+        System.out.println("__________________________________");
         System.out.print("Your choice: ");
         int userChoice = input.nextInt();
         switch (userChoice){
@@ -41,13 +43,14 @@ public class SignupMenu {
     public static void restaurantOwner() throws NoSuchAlgorithmException {
         Scanner input = new Scanner(System.in);
         System.out.println("Restaurant owner credentials");
+        System.out.println("__________________________________");
         System.out.print("Enter name: ");
         String name = input.next();
         System.out.print("Enter email: ");
         String email = input.next();
         System.out.print("Enter password: ");
         String hash_password = input.next();
-
+        System.out.println("__________________________________");
         RestaurantOwner owner = new RestaurantOwner(email, name, hash_password);
         System.out.print("Enter restaurant name: ");
         String restaurant_name = input.next();
@@ -56,11 +59,13 @@ public class SignupMenu {
         //CHOOSE LOCATION
         System.out.println("\nLOCATIONS:");
         Location.displayLocationList();
+        System.out.println("__________________________________");
         System.out.print("Enter location ID: ");
         int location_id = input.nextInt(); //Pending error handling
         //CHOOSE CATEGORY
         System.out.println("\nCATEGORIES:");
         Category.displayCategoryList();
+        System.out.println("__________________________________");
         System.out.print("Enter category ID: ");
         int category_id = input.nextInt(); //Pending error handling
         Register.RestaurantAndOwner(owner, restaurant_name, phone, location_id, category_id);

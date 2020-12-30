@@ -6,9 +6,9 @@ import java.util.*;
 public class Meal {
     private int meal_id;
     private int restaurant_id;
-    private final String meal_name;
-    private final float meal_price;
-    private final String meal_description;
+    private String meal_name;
+    private float meal_price;
+    private String meal_description;
 
     public Meal(String meal_name, float meal_price, String meal_description) {
         this.meal_name = meal_name;
@@ -87,6 +87,24 @@ public class Meal {
     public void deleteMeal() {
         DeleteRecords dr = new DeleteRecords();
         dr.deleteMeal(meal_id);
+    }
+
+
+    public void setMeal_name(String meal_name) {
+        this.meal_name = meal_name;
+    }
+
+    public void setMeal_price(float meal_price) {
+        this.meal_price = meal_price;
+    }
+
+    public void setMeal_description(String meal_description) {
+        this.meal_description = meal_description;
+    }
+
+    public void editMeal(){
+        UpdateRecords ur = new UpdateRecords();
+        ur.updateMeal(meal_name, meal_price, meal_description, meal_id);
     }
 
 }

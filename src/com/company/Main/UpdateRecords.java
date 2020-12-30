@@ -19,6 +19,25 @@ public class UpdateRecords {
         return conn;
     }
 
+    public void updateMeal(String meal_name, float meal_price, String meal_description, int meal_id) {
+        //UPDATE table_name
+        //SET column1 = value1, column2 = value2, ...
+        //WHERE condition;
+        String sql = "UPDATE MEAL SET meal_name = ?, meal_price = ?, meal_description = ? WHERE meal_id = ?";
+
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, meal_name);
+            pstmt.setFloat(2, meal_price);
+            pstmt.setString(3, meal_description);
+            pstmt.setInt(4, meal_id);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void updateAdmin(int approved, int restaurant_owner_id) {
         //UPDATE table_name
