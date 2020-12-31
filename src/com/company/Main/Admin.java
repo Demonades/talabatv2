@@ -22,7 +22,7 @@ public class Admin {
         return sr.retrievePendingApprovalRestaurantOwners();
 
     }
-    public static void approveRestaurant(RestaurantOwner restaurantOwner){
+    public void approveRestaurant(RestaurantOwner restaurantOwner){
         UpdateRecords ur = new UpdateRecords();
         ur.updateAdmin(1, restaurantOwner.getRestaurant_owner_id());
     }

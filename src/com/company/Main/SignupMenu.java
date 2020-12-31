@@ -68,7 +68,7 @@ public class SignupMenu {
         System.out.println("__________________________________");
         System.out.print("Enter category ID: ");
         int category_id = input.nextInt(); //Pending error handling
-        Register.RestaurantAndOwner(owner, restaurant_name, phone, location_id, category_id);
+        Register.RestaurantAndOwner(owner, restaurant_name, phone, Location.getLocationList().get(location_id-1), category_id);
         System.out.println("\nYour restaurant is now pending admin approval!");
         WelcomeMenu.welcome();
     }

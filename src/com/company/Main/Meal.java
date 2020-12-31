@@ -69,11 +69,11 @@ public class Meal {
         int quantity;
         quantity = input.nextInt();
         float price = meal.getMeal_price() * quantity;
-        System.out.println("Total: " + price);
+        System.out.println("Total: " + price +"EGP");
         System.out.println("Would you like to checkout?");
         System.out.println("[1] YES");
         System.out.println("[2] NO");
-        System.out.println("Your choice: ");
+        System.out.print("Your choice: ");
         userChoice = input.nextInt();
         switch (userChoice) {
             case 1:

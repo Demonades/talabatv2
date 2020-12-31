@@ -44,6 +44,6 @@ public class RestaurantOwner extends User{
 
     public Restaurant getRestaurant(){
         SelectRecords sr = new SelectRecords();
-        return sr.retrieveRestaurant("*", "RESTAURANT", "restaurant_owner_id",String.valueOf(restaurant_owner_id));
+        return sr.retrieveRestaurant(restaurant_owner_id);
     }
 }

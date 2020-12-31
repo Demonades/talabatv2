@@ -84,42 +84,43 @@ public class SelectRecords {
         return result;
     }
 
-    public Restaurant retrieveRestaurant(String selectedColumnLabel, String tableName, String conditionColumnLabel, String searchKey){
-        String sql = "SELECT ? FROM ? WHERE ? = ?";
-        sql = sql.replaceFirst("\\?",selectedColumnLabel);
-        sql = sql.replaceFirst("\\?",tableName);
-        sql = sql.replaceFirst("\\?",conditionColumnLabel);
-        int restaurant_id = Integer.parseInt(searchKey);
+    public Restaurant retrieveRestaurant(int restaurant_owner_id){
+        String sql = "SELECT * FROM RESTAURANT INNER JOIN LOCATION ON LOCATION.location_id = RESTAURANT.location_id WHERE restaurant_owner_id = ?";
+        int restaurant_id = -1;
         String restaurant_name = "";
         int location_id = -1;
         String phone = "";
-        int restaurant_owner_id = -1;
+        String location_name = "";
+        Location location = null;
         try {
             Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,searchKey);
+            pstmt.setInt(1,restaurant_owner_id);
             ResultSet rs = pstmt.executeQuery();
 
             // loop through the result set
             while (rs.next()) {
                 restaurant_name = rs.getString("restaurant_name");
                 location_id = rs.getInt("location_id");
+                location_name = rs.getString("location_name");
                 phone = rs.getString("phone");
-                restaurant_owner_id = rs.getInt("restaurant_owner_id");
+                restaurant_id = rs.getInt("restaurant_owner_id");
+                location = new Location(location_id, location_name);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
+        return new Restaurant(restaurant_id,restaurant_name,location,phone,restaurant_owner_id);
     }
     public ArrayList<Restaurant> retrieveRestaurantListAll(){
-        String sql = "SELECT * FROM RESTAURANT WHERE restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
+        String sql = "SELECT RESTAURANT.*, LOCATION.location_name FROM RESTAURANT JOIN LOCATION ON RESTAURANT.location_id = LOCATION.location_id WHERE restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         int restaurant_id = -1;
         String restaurant_name = "";
-        int location_id = -1;
         String phone = "";
         int restaurant_owner_id = -1;
+        int location_id = -1;
+        String location_name = "";
         try {
             Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -132,7 +133,9 @@ public class SelectRecords {
                 location_id = rs.getInt("location_id");
                 phone = rs.getString("phone");
                 restaurant_owner_id = rs.getInt("restaurant_owner_id");
-                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
+                location_name = rs.getString("location_name");
+                Location location = new Location(location_id,location_name);
+                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location,phone,restaurant_owner_id);
                 restaurants.add(restaurant);
             }
         } catch (SQLException e) {
@@ -141,13 +144,14 @@ public class SelectRecords {
         return restaurants;
     }
     public ArrayList<Restaurant> retrieveCategorizedRestaurantList(int category_id){
-        String sql = "SELECT * FROM RESTAURANT INNER JOIN RESTAURANT_CATEGORIES ON RESTAURANT.restaurant_id = RESTAURANT_CATEGORIES.restaurant_id WHERE RESTAURANT_CATEGORIES.category_id = ? AND restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
+        String sql = "SELECT RESTAURANT.*, LOCATION.location_name FROM RESTAURANT INNER JOIN RESTAURANT_CATEGORIES ON RESTAURANT.restaurant_id = RESTAURANT_CATEGORIES.restaurant_id INNER JOIN LOCATION ON LOCATION.location_id = RESTAURANT.location_id WHERE RESTAURANT_CATEGORIES.category_id = ? AND restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         int restaurant_id = -1;
         String restaurant_name = "";
-        int location_id = -1;
         String phone = "";
         int restaurant_owner_id = -1;
+        int location_id = -1;
+        String location_name = "";
         try {
             Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -161,7 +165,9 @@ public class SelectRecords {
                 location_id = rs.getInt("location_id");
                 phone = rs.getString("phone");
                 restaurant_owner_id = rs.getInt("restaurant_owner_id");
-                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
+                location_name = rs.getString("location_name");
+                Location location = new Location(location_id,location_name);
+                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location,phone,restaurant_owner_id);
                 restaurants.add(restaurant);
             }
         } catch (SQLException e) {
@@ -170,12 +176,13 @@ public class SelectRecords {
         return restaurants;
     }
     public ArrayList<Restaurant> retrieveLocationRestaurantList(int location_id){
-        String sql = "SELECT * FROM RESTAURANT WHERE location_id = ? AND restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
+        String sql = "SELECT * FROM RESTAURANT INNER JOIN LOCATION ON LOCATION.location_id = RESTAURANT.location_id WHERE RESTAURANT.location_id = ? AND restaurant_owner_id in (SELECT restaurant_owner_id FROM RESTAURANT_OWNER WHERE approved = 1)";
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         int restaurant_id = -1;
         String restaurant_name = "";
         String phone = "";
         int restaurant_owner_id = -1;
+        String location_name = "";
         try {
             Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -188,7 +195,9 @@ public class SelectRecords {
                 restaurant_name = rs.getString("restaurant_name");
                 phone = rs.getString("phone");
                 restaurant_owner_id = rs.getInt("restaurant_owner_id");
-                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location_id,phone,restaurant_owner_id);
+                location_name = rs.getString("location_name");
+                Location location = new Location(location_id, location_name);
+                Restaurant restaurant = new Restaurant(restaurant_id,restaurant_name,location,phone,restaurant_owner_id);
                 restaurants.add(restaurant);
             }
         } catch (SQLException e) {

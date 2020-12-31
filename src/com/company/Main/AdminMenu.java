@@ -10,10 +10,10 @@ public class AdminMenu {
 
     public AdminMenu(Admin admin){
         this.admin = admin;
-
+        initial();
     }
-    public void initial(Admin admin) {
-        System.out.println("Welcome to admin menu," + admin.getName() + "!");
+    public void initial() {
+        System.out.println("Welcome to admin menu, " + admin.getName() + "!");
         System.out.println(admin.getName());
         System.out.println("__________________________________");
         System.out.println("What would you like to do?");
@@ -34,14 +34,35 @@ public class AdminMenu {
     public void approveRestaurant(){
         ArrayList<RestaurantOwner> restaurantOwners = Admin.getPendingApprovalList();
         int i = 1;
-        //ArrayList<RestaurantOwner> restaurantOwners = new ArrayList<>();
-        for(RestaurantOwner restaurantOwner: map.keySet())
+        for(RestaurantOwner restaurantOwner: restaurantOwners)
         {
-            Restaurant restaurant = map.get(restaurantOwner);
+            Restaurant restaurant = restaurantOwner.getRestaurant();
             System.out.println("[" + i + "]");
             i++;
-            restaurantOwners.add(restaurantOwner);
-
+            System.out.println("Owner name: " + restaurantOwner.name);
+            System.out.println("Owner email: " + restaurantOwner.email);
+            System.out.println("Restaurant name: " + restaurant.getRestaurant_name());
+            System.out.println("Restaurant phone no.: " + restaurant.getPhone());
+            System.out.println("Restaurant location: " + restaurant.getLocation().location_name);
+            System.out.println("__________________________________");
+        }
+        System.out.println("__________________________________");
+        System.out.print("Choose restaurant to approve: ");
+        int userChoice = input.nextInt();
+        RestaurantOwner approvedRestaurantOwner = restaurantOwners.get(userChoice-1);
+        System.out.println("__________________________________");
+        System.out.println("Are you sure you want to approve restaurant owner?");
+        System.out.println("[1] YES");
+        System.out.println("[2] NO");
+        System.out.print("Your choice: ");
+        userChoice = input.nextInt();
+        switch (userChoice) {
+            case 1:
+                admin.approveRestaurant(approvedRestaurantOwner);
+                System.out.println("Restaurant owner approved!\n\n");
+            case 2:
+                initial();
+                break;
         }
     }
 }

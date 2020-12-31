@@ -5,20 +5,19 @@ import java.util.ArrayList;
 public class Restaurant {
     private int restaurant_id;
     private String restaurant_name;
-    private int location_id;
-    //UNHANDLED IMAGE
+    private Location location;
     private String phone;
     private int restaurant_owner_id;
 
-    public Restaurant(String restaurant_name, int location_id, String phone) {
+    public Restaurant(String restaurant_name, Location location, String phone) {
         this.restaurant_name = restaurant_name;
-        this.location_id = location_id;
+        this.location = location;
         this.phone = phone;
     }
-    public Restaurant(int restaurant_id, String restaurant_name, int location_id, String phone, int restaurant_owner_id) {
+    public Restaurant(int restaurant_id, String restaurant_name, Location location, String phone, int restaurant_owner_id) {
         this.restaurant_id = restaurant_id;
         this.restaurant_name = restaurant_name;
-        this.location_id = location_id;
+        this.location = location;
         this.phone = phone;
         this.restaurant_owner_id = restaurant_owner_id;
     }
@@ -36,7 +35,11 @@ public class Restaurant {
     }
 
     public int getLocation_id() {
-        return location_id;
+        return location.getLocation_id();
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public String getPhone() {
@@ -45,7 +48,7 @@ public class Restaurant {
 
     public void insertIntoDB(RestaurantOwner restaurantOwner){
         InsertRecords ir = new InsertRecords();
-        ir.insertRestaurant(restaurant_name,location_id,phone,restaurantOwner.getRestaurant_owner_id());
+        ir.insertRestaurant(restaurant_name,location.getLocation_id(),phone,restaurantOwner.getRestaurant_owner_id());
         SelectRecords sr = new SelectRecords();
         restaurant_id = sr.retrieveInteger("restaurant_id", "RESTAURANT", "restaurant_name",restaurant_name);
     }

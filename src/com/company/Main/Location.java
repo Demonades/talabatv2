@@ -3,8 +3,8 @@ package com.company.Main;
 import java.util.ArrayList;
 
 public class Location {
-    private int location_id;
-    private String location_name;
+    public int location_id;
+    public String location_name;
 
     public Location(int location_id, String location_name) {
         this.location_id = location_id;
